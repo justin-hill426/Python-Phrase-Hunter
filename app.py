@@ -6,11 +6,11 @@ def play_again():
     user_input = ""
     while user_input != "y" and user_input != "n":
         try:
-            user_input = input("Would you like to play again? (y/n)").lower()
+            user_input = input("Would you like to play again? (y/n): ").lower()
             if len(user_input) > 1:
                 raise ValueError()
             elif user_input != "y" and user_input != "n":
-                raise ValueError("Please enter y (Yes) or n (No): ")
+                raise ValueError("Please enter 'y' (Yes) or 'n' (No): ")
         except ValueError as err:
             print("Please enter y (Yes) or n (No)")
     return user_input == 'y'

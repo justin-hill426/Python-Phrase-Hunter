@@ -10,7 +10,8 @@ class Game:
                          "If music be the food of love play on",
                          "There are more things in heaven and earth, Horatio, than are dreamt of in your philosophy",
                          "Some are born great, some achieve greatness, and some have greatness thrust upon them",
-                         "To thine own self be true"]
+                         "To thine own self be true",
+                         "Love all, trust a few, do wrong to none"]
 
     def __init__(self):
         self.missed = 0
@@ -44,9 +45,18 @@ class Game:
             print(f"Number missed: {self.missed}")
             self.active_phrase.display(self.guesses)
             user_guess = self.get_guess()
+            if user_guess == "INVALID":
+                continue
             self.guesses.append(user_guess)
             if not self.check_guess(user_guess):
+                print(f"Sorry, there are no {user_guess}'s in the phrase")
                 self.missed += 1
+            else:
+                count_correct = self.active_phrase.phrase.count(user_guess)
+                if count_correct == 1:
+                    print(f"Great job! There is {count_correct} '{user_guess}' in the phrase")
+                else:
+                    print(f"Great job! There are {count_correct} {user_guess}'s in the phrase")
         self.game_over()
 
     def get_guess(self):
@@ -55,13 +65,17 @@ class Game:
         try:
             new_guess = input("Enter a letter: ").lower()
             if len(new_guess) > 1:
+                new_guess = "INVALID"
                 raise ValueError("The guess you entered was too long. Make sure that it is only one character")
             elif len(new_guess) < 1:
+                new_guess = "INVALID"
                 raise ValueError("The guess you entered was too short. Make sure that it is only one character")
             elif ord(new_guess) < 97 or ord(new_guess) > 122:
+                new_guess = "INVALID"
                 raise ValueError("Your input was deemed invalid! Please make sure input is a character a-z")
             elif new_guess in self.guesses:
                 print(f"You already guessed the letter {new_guess}, try again")
+                new_guess = "INVALID"
         except ValueError as err:
             print(err)
         return new_guess
